@@ -50,7 +50,7 @@ def login():
         else:
             flash(f'Falha no Login. E-mail ou Senha Incorretos', 'alert-danger')
     if form_criarconta.validate_on_submit() and 'botao_submit_criarconta' in request.form:                              ###quando o form é valido e clicou no botão de criar conta
-        senha_cript = bcrypt.generate_password_hash(form_criarconta.senha.data)                                         ##transformando senha em senha criptografada
+        senha_cript = bcrypt.generate_password_hash(form_criarconta.senha.data).decode("utf-8")                                         ##transformando senha em senha criptografada
         usuario = Usuario(username=form_criarconta.username.data, email=form_criarconta.email.data, senha=senha_cript)
         database.session.add(usuario)
         database.session.commit()
@@ -161,7 +161,6 @@ def excluir_post(post_id):
         return redirect(url_for('home'))
     else:
         abort(403)                                                                                                      ##Uusário tentou entrar em um link que não possui autorização para acessar
-
 
 
 
