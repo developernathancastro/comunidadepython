@@ -1,3 +1,4 @@
+import sqlalchemy
 from flask import Flask                        ##aqui são instaladas todas as extensões e integradas ao site
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -19,7 +20,15 @@ login_manager = LoginManager(app)
 login_manager.login_view = ('login')
 login_manager.login_message_category = 'alert-info'
 
+from comunidadeimpressionadora import models
+engine = sqlalchemy.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+if not inspector.has_table("usário"):
+    with app.app.context():
+        database.drop_all()
+        database.create_all()
+        print("Base de Dados Criado")
+else:
+    print("Base de Dados já existente")
+
 from comunidadeimpressionadora import routes                                                                            ##routes precisam do app para funcionar e o app está sendo criado
                                                                                                                         ##depois das importações
-
-
